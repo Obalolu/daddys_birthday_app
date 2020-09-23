@@ -1,3 +1,4 @@
+import 'package:daddys_birthday_app/message_model.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -32,6 +33,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
+  MessageRequestModel requestModel;
+
+  @override
+  void initState() {
+    super.initState();
+    requestModel = new MessageRequestModel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           new TextFormField(
                               keyboardType: TextInputType.text,
+                              onSaved: (input) => requestModel.name = input,
                               decoration: new InputDecoration(
                                 hintText: "Name",
                                 enabledBorder: UnderlineInputBorder(
@@ -96,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           new TextFormField(
                               keyboardType: TextInputType.multiline,
+                              onSaved: (input) => requestModel.message = input,
                               decoration: new InputDecoration(
                                 hintText: "Message",
                                 enabledBorder: UnderlineInputBorder(
@@ -115,7 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           FlatButton(
                             padding: EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 80),
-                            onPressed: () {},
+                            onPressed: () {
+                              print(requestModel.toJson());
+                            },
                             child: Text(
                               "Send Message",
                               style: TextStyle(
@@ -131,25 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ],
               )
-//            TextField(
-//              decoration: InputDecoration(
-//                filled: true,
-//                border: InputBorder.none,
-//                hintText: 'Name',
-//              ),
-//              controller: nameController,
-//            ),
-//            SizedBox(height: 12.0),
-//
-//            TextField(
-//              decoration: InputDecoration(
-//                border: InputBorder.none,
-//                filled: true,
-//                hintText: 'Message',
-//              ),
-//              controller: messageController,
-//              keyboardType: TextInputType.multiline,
-//            ),
             ],
           ),
         ),
