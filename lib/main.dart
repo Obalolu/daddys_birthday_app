@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -26,58 +27,129 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      key: scaffoldKey,
+      backgroundColor: Colors.teal,
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Column(
-            //
-            // Column has various properties to control how it sizes itself and
-            // how it positions its children. Here we use mainAxisAlignment to
-            // center the children vertically; the main axis here is the vertical
-            // axis because Columns are vertical (the cross axis would be
-            // horizontal).
-            mainAxisAlignment: MainAxisAlignment.center,
+//          mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // [Name]
-              TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  border: InputBorder.none,
-                  hintText: 'Name',
-                ),
-              ),
-              SizedBox(height: 12.0),
-
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  hintText: 'Message',
-                ),
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-              ),
+              Stack(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                    margin: EdgeInsets.symmetric(vertical: 85, horizontal: 20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context).hintColor.withOpacity(0.2),
+                            offset: Offset(0, 10),
+                            blurRadius: 20,
+                          )
+                        ]),
+                    child: Form(
+                      key: globalFormKey,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            "Birthday Message",
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.teal),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          new TextFormField(
+                              keyboardType: TextInputType.text,
+                              decoration: new InputDecoration(
+                                hintText: "Name",
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.teal.withOpacity(0.2),
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                              )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          new TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              decoration: new InputDecoration(
+                                hintText: "Message",
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.teal.withOpacity(0.2),
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                              )),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          FlatButton(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 80),
+                            onPressed: () {},
+                            child: Text(
+                              "Send Message",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            color: Colors.teal,
+                            shape: StadiumBorder(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )
+//            TextField(
+//              decoration: InputDecoration(
+//                filled: true,
+//                border: InputBorder.none,
+//                hintText: 'Name',
+//              ),
+//              controller: nameController,
+//            ),
+//            SizedBox(height: 12.0),
+//
+//            TextField(
+//              decoration: InputDecoration(
+//                border: InputBorder.none,
+//                filled: true,
+//                hintText: 'Message',
+//              ),
+//              controller: messageController,
+//              keyboardType: TextInputType.multiline,
+//            ),
             ],
           ),
         ),
