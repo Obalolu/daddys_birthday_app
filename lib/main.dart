@@ -83,102 +83,99 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  UnconstrainedBox(
-                    child: LimitedBox(
-                      maxWidth: 500,
-                      child: Container(
-                        width: double.infinity,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                        margin:
-                            EdgeInsets.symmetric(vertical: 85, horizontal: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .hintColor
-                                    .withOpacity(0.2),
-                                offset: Offset(0, 10),
-                                blurRadius: 20,
-                              )
-                            ]),
-                        child: Form(
-                          key: globalFormKey,
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Text(
-                                "Birthday Message for Ademola Okeowo",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.teal),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              new TextFormField(
-                                  controller: nameController,
-                                  keyboardType: TextInputType.text,
-                                  textCapitalization: TextCapitalization.words,
-                                  cursorColor: Colors.teal,
-                                  onSaved: (input) => requestModel.name = input,
-                                  decoration: new InputDecoration(
-                                    hintText: "Name",
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.teal.withOpacity(0.2),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.teal,
-                                      ),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              new TextFormField(
-                                  controller: messageController,
-                                  autocorrect: true,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  keyboardType: TextInputType.multiline,
-                                  cursorColor: Colors.teal,
-                                  maxLines: null,
-                                  onSaved: (input) =>
-                                      requestModel.message = input,
-                                  decoration: new InputDecoration(
-                                    hintText: "Message",
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.teal.withOpacity(0.2),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.teal,
-                                      ),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              buildTextWithIcon(),
+                  Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                    margin:
+                        EdgeInsets.symmetric(vertical: 85, horizontal: 20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context)
+                                .hintColor
+                                .withOpacity(0.2),
+                            offset: Offset(0, 10),
+                            blurRadius: 20,
+                          )
+                        ]),
+                    child: Form(
+                      key: globalFormKey,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            "Birthday Message for Ademola Okeowo",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.teal),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          new TextFormField(
+                              controller: nameController,
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.words,
+                              cursorColor: Colors.teal,
+                              onSaved: (input) => requestModel.name = input,
+                              decoration: new InputDecoration(
+                                hintText: "Name",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.teal.withOpacity(0.2),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                              )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          new TextFormField(
+                              controller: messageController,
+                              autocorrect: true,
+                              textCapitalization:
+                                  TextCapitalization.sentences,
+                              keyboardType: TextInputType.multiline,
+                              cursorColor: Colors.teal,
+                              maxLines: null,
+                              onSaved: (input) =>
+                                  requestModel.message = input,
+                              decoration: new InputDecoration(
+                                hintText: "Message",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.teal.withOpacity(0.2),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                              )),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          buildTextWithIcon(),
 //                          FlatButton(
 //                            padding: EdgeInsets.symmetric(
 //                                vertical: 12, horizontal: 80),
@@ -196,9 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                            color: Colors.teal,
 //                            shape: StadiumBorder(),
 //                          ),
-                            ],
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   )
