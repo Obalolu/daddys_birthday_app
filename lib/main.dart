@@ -1,5 +1,10 @@
+import 'package:daddys_birthday_app/api/api_service.dart';
 import 'package:daddys_birthday_app/message_model.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
+
+import 'display_messages.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,12 +13,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Happy Birthday',
+      routes: {
+        "/": (context) => DisplayMessages(),
+        "/send-message": (context) => MyHomePage(),
+      },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -34,6 +42,28 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
   MessageRequestModel requestModel;
+  ButtonState stateTextWithIcon = ButtonState.idle;
+
+  Widget buildTextWithIcon() {
+    return ProgressButton.icon(iconedButtons: {
+      ButtonState.idle: IconedButton(
+          text: "Send Message",
+          icon: Icon(Icons.send, color: Colors.white),
+          color: Colors.teal),
+      ButtonState.loading: IconedButton(text: "Loading", color: Colors.teal),
+      ButtonState.fail: IconedButton(
+          text: "Failed",
+          icon: Icon(Icons.cancel, color: Colors.white),
+          color: Colors.red.shade300),
+      ButtonState.success: IconedButton(
+          text: "Thank You",
+          icon: Icon(
+            Icons.check_circle,
+            color: Colors.white,
+          ),
+          color: Colors.green.shade400)
+    }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
+  }
 
   @override
   void initState() {
@@ -53,91 +83,122 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                    margin: EdgeInsets.symmetric(vertical: 85, horizontal: 20),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(context).hintColor.withOpacity(0.2),
-                            offset: Offset(0, 10),
-                            blurRadius: 20,
-                          )
-                        ]),
-                    child: Form(
-                      key: globalFormKey,
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Text(
-                            "Birthday Message",
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.teal),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          new TextFormField(
-                              keyboardType: TextInputType.text,
-                              onSaved: (input) => requestModel.name = input,
-                              decoration: new InputDecoration(
-                                hintText: "Name",
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.teal.withOpacity(0.2),
-                                  ),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.teal,
-                                  ),
-                                ),
-                              )),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          new TextFormField(
-                              keyboardType: TextInputType.multiline,
-                              onSaved: (input) => requestModel.message = input,
-                              decoration: new InputDecoration(
-                                hintText: "Message",
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.teal.withOpacity(0.2),
-                                  ),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.teal,
-                                  ),
-                                ),
-                              )),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          FlatButton(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 80),
-                            onPressed: () {
-                              print(requestModel.toJson());
-                            },
-                            child: Text(
-                              "Send Message",
-                              style: TextStyle(
-                                color: Colors.white,
+                  UnconstrainedBox(
+                    child: LimitedBox(
+                      maxWidth: 500,
+                      child: Container(
+                        width: double.infinity,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 85, horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .hintColor
+                                    .withOpacity(0.2),
+                                offset: Offset(0, 10),
+                                blurRadius: 20,
+                              )
+                            ]),
+                        child: Form(
+                          key: globalFormKey,
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 25,
                               ),
-                            ),
-                            color: Colors.teal,
-                            shape: StadiumBorder(),
+                              Text(
+                                "Birthday Message for Ademola Okeowo",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.teal),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              new TextFormField(
+                                  controller: nameController,
+                                  keyboardType: TextInputType.text,
+                                  textCapitalization: TextCapitalization.words,
+                                  cursorColor: Colors.teal,
+                                  onSaved: (input) => requestModel.name = input,
+                                  decoration: new InputDecoration(
+                                    hintText: "Name",
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.teal.withOpacity(0.2),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.teal,
+                                      ),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              new TextFormField(
+                                  controller: messageController,
+                                  autocorrect: true,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  keyboardType: TextInputType.multiline,
+                                  cursorColor: Colors.teal,
+                                  maxLines: null,
+                                  onSaved: (input) =>
+                                      requestModel.message = input,
+                                  decoration: new InputDecoration(
+                                    hintText: "Message",
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.teal.withOpacity(0.2),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.teal,
+                                      ),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              buildTextWithIcon(),
+//                          FlatButton(
+//                            padding: EdgeInsets.symmetric(
+//                                vertical: 12, horizontal: 80),
+//                            onPressed: () {
+//                              final form = globalFormKey.currentState;
+//                              form.save();
+//                              print(requestModel.toJson());
+//                            },
+//                            child: Text(
+//                              "Send Message",
+//                              style: TextStyle(
+//                                color: Colors.white,
+//                              ),
+//                            ),
+//                            color: Colors.teal,
+//                            shape: StadiumBorder(),
+//                          ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   )
@@ -148,5 +209,42 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void onPressedIconWithText() {
+    switch (stateTextWithIcon) {
+      case ButtonState.idle:
+        stateTextWithIcon = ButtonState.loading;
+
+        final form = globalFormKey.currentState;
+        form.save();
+        APIService apiService = new APIService();
+        apiService.sendMessage(requestModel).then((value) => {
+              setState(() {
+                stateTextWithIcon = ButtonState.success;
+                nameController.text = "";
+                messageController.text = "";
+              }),
+              Future.delayed(Duration(seconds: 10), () {
+                setState(() {
+                  stateTextWithIcon = ButtonState.idle;
+                });
+              })
+            });
+        print(requestModel.toJson());
+
+        break;
+      case ButtonState.loading:
+        break;
+      case ButtonState.success:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+      case ButtonState.fail:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+    }
+    setState(() {
+      stateTextWithIcon = stateTextWithIcon;
+    });
   }
 }
