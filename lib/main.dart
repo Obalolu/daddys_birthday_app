@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'display_messages.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -11,8 +13,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: Typography.blackCupertino
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: DisplayMessages(),
     );
   }
 }

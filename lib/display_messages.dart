@@ -11,88 +11,100 @@ class _DisplayMessagesState extends State<DisplayMessages> {
     return Scaffold(
       backgroundColor: Colors.teal,
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(bottom: 40),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Text(
-                                  'Happy Birthday',
-                                  style: TextStyle(
-                                    fontFamily: 'LimeLight',
-                                    fontSize: 38,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  'to the best Dad in the world!!',
-                                  style: TextStyle(
-                                    fontFamily: 'JosefinSans',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: _buildStack(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // List of messages
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Happy birthday Ademola!!',
-                          style: TextStyle(
-                            fontFamily: 'JosefinSans',
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                        // ignore: sdk_version_set_literal
-                        Column(
-                          children:
-                              List.generate(this.messages.length, (index) {
-                            var item = this.messages[index];
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: Card(
-                                elevation: 10,
-                                color: Colors.teal[50],
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                      title: Text(item['name']),
-                                      subtitle: Text(item['message']),
-                                    ),
-                                  ],
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                'Happy Birthday',
+                                style: TextStyle(
+                                  fontFamily: 'LimeLight',
+                                  fontSize: 38,
+                                  color: Colors.white,
                                 ),
                               ),
-                            );
-                          }),
+                              subtitle: Text(
+                                'to the best Dad in the world!!',
+                                style: TextStyle(
+                                  fontFamily: 'JosefinSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                  )
-                ]),
+                      ),
+                      Expanded(
+                        child: _buildStack(),
+                      ),
+                    ],
+                  ),
+                ),
+                // List of messages
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Happy birthday Ademola!!',
+                        style: TextStyle(
+                          fontFamily: 'JosefinSans',
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      // ignore: sdk_version_set_literal
+                      Column(
+                        children: List.generate(this.messages.length, (index) {
+                          var item = this.messages[index];
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Card(
+                              elevation: 10,
+                              color: Colors.teal[50],
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                      item['name'].toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'JosefinSans',
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      item['message'].toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'JosefinSans',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
