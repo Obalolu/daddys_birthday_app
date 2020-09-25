@@ -147,11 +147,11 @@ class _DisplayMessagesState extends State<DisplayMessages> {
                                       ),
                                     ),
                                     subtitle: Text(
-                                      'to the best Dad in the world!!',
+                                      "to the best Dad in the world!! \nthe developer's developer",
                                       style: TextStyle(
                                         fontFamily: 'JosefinSans',
                                         fontSize: responsiveValue(20,
-                                            md: 25, lg: 30, xl: 35),
+                                            md: 23, lg: 28, xl: 30),
                                         fontWeight: FontWeight.w200,
                                         color: Colors.white,
                                       ),
@@ -184,7 +184,7 @@ class _DisplayMessagesState extends State<DisplayMessages> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height:20),
+                      SizedBox(height: 20),
                       messages(context),
                     ],
                   ),

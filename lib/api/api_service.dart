@@ -18,7 +18,7 @@ class APIService {
   }
 
   Future<MessageResponse> getAllMessages() async {
-    final response = await http.get(url);
+    final response = await http.get('$url?limit=1000');
     print(response.body);
     return MessageResponse.fromJson(json.decode(response.body));
   }
