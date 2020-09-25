@@ -4,40 +4,6 @@ import 'package:daddys_birthday_app/api/api_service.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
-/*
-ResponsiveGridList(
-        desiredItemWidth: 100,
-        minSpacing: 10,
-        children: [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13,
-          14,
-          15,
-          16,
-          17,
-          18,
-          19,
-          20
-        ].map((i) {
-          return Container(
-            height: 100,
-            alignment: Alignment(0, 0),
-            color: Colors.cyan,
-            child: Text(i.toString()),
-          );
-        }).toList()
- */
 class DisplayMessages extends StatefulWidget {
   @override
   _DisplayMessagesState createState() => _DisplayMessagesState();
@@ -72,23 +38,23 @@ class _DisplayMessagesState extends State<DisplayMessages> {
                         elevation: 5,
                         color: Colors.teal[50],
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.all(15),
                           child: Column(
+                            textDirection: TextDirection.ltr,
                             children: [
-                              ListTile(
-                                title: Text(
-                                  item.name.toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'JosefinSans',
-                                  ),
+                              Text(
+                                item.name.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
                                 ),
-                                subtitle: Text(
-                                  item.message,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'JosefinSans',
-                                  ),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                item.message,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black87,
                                 ),
                               ),
                             ],
