@@ -1,11 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:daddys_birthday_app/message_model.dart';
+import 'package:daddys_birthday_app/api/api_service.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
+/*
+ResponsiveGridList(
+        desiredItemWidth: 100,
+        minSpacing: 10,
+        children: [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ].map((i) {
+          return Container(
+            height: 100,
+            alignment: Alignment(0, 0),
+            color: Colors.cyan,
+            child: Text(i.toString()),
+          );
+        }).toList()
+ */
 class DisplayMessages extends StatefulWidget {
   @override
   _DisplayMessagesState createState() => _DisplayMessagesState();
 }
 
 class _DisplayMessagesState extends State<DisplayMessages> {
+  final _apiService = new APIService();
+
+  /// Handle the proccess of getting message
+  FutureBuilder<MessageResponse> messages(BuildContext context) {
+    return FutureBuilder<MessageResponse>(
+        future: _apiService.getAllMessages(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            // Uncompleted State
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+              break;
+            default:
+              // Completed with error
+              if (snapshot.hasError) {
+                return Container(child: Text(snapshot.error.toString()));
+              }
+              final messages = snapshot.data.data.messages;
+
+              return Column(
+                children: messages
+                    .map(
+                      (item) => Card(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        elevation: 5,
+                        color: Colors.teal[50],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  item.name.toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'JosefinSans',
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  item.message,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'JosefinSans',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              );
+          }
+        });
+  }
+
+  dynamic responsiveValue(dynamic sm, {dynamic md, dynamic lg, dynamic xl}) {
+    return ResponsiveWrapper.of(context).isSmallerThan('SM')
+        ? sm
+        : ResponsiveWrapper.of(context).isSmallerThan('MD')
+            ? (md ?? sm)
+            : ResponsiveWrapper.of(context).isSmallerThan('LG')
+                ? (lg ?? md ?? sm)
+                : (xl ?? lg ?? md ?? sm);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,36 +125,48 @@ class _DisplayMessagesState extends State<DisplayMessages> {
               children: [
                 Container(
                   padding: EdgeInsets.only(bottom: 40),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: ResponsiveRowColumn(
+                    rowCrossAxisAlignment: CrossAxisAlignment.center,
+                    rowColumn: true,
                     children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                'Happy Birthday',
-                                style: TextStyle(
-                                  fontFamily: 'LimeLight',
-                                  fontSize: 38,
-                                  color: Colors.white,
+                      ResponsiveRowColumnItem(
+                        child: Expanded(
+                          child: ResponsiveRowColumn(
+                            rowColumn: true,
+                            children: [
+                              ResponsiveRowColumnItem(
+                                child: Expanded(
+                                  child: ListTile(
+                                    title: Text(
+                                      'Happy ${responsiveValue(" ", xl: "\n")}Birthday',
+                                      style: TextStyle(
+                                        fontFamily: 'LimeLight',
+                                        fontSize: responsiveValue(28,
+                                            md: 42, lg: 52, xl: 64),
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      'to the best Dad in the world!!',
+                                      style: TextStyle(
+                                        fontFamily: 'JosefinSans',
+                                        fontSize: responsiveValue(20,
+                                            md: 25, lg: 30, xl: 35),
+                                        fontWeight: FontWeight.w200,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              subtitle: Text(
-                                'to the best Dad in the world!!',
-                                style: TextStyle(
-                                  fontFamily: 'JosefinSans',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      Expanded(
-                        child: _buildStack(),
+                      ResponsiveRowColumnItem(
+                        child: Expanded(
+                          child: _buildStack(),
+                        ),
                       ),
                     ],
                   ),
@@ -59,47 +177,15 @@ class _DisplayMessagesState extends State<DisplayMessages> {
                   child: Column(
                     children: [
                       Text(
-                        'Happy birthday Ademola!!',
+                        'Happy birthday Ademola Okeowo!!',
                         style: TextStyle(
                           fontFamily: 'JosefinSans',
                           fontSize: 18,
                           color: Colors.white,
                         ),
                       ),
-                      // ignore: sdk_version_set_literal
-                      Column(
-                        children: List.generate(this.messages.length, (index) {
-                          var item = this.messages[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Card(
-                              elevation: 10,
-                              color: Colors.teal[50],
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      item['name'].toUpperCase(),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'JosefinSans',
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      item['message'].toUpperCase(),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'JosefinSans',
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
+                      SizedBox(height:20),
+                      messages(context),
                     ],
                   ),
                 )
@@ -120,10 +206,13 @@ class _DisplayMessagesState extends State<DisplayMessages> {
           top: 0,
           left: 0,
           child: Container(
-            color: Colors.yellow[100],
+            decoration: new BoxDecoration(
+              color: Colors.yellow[100],
+              borderRadius: BorderRadius.all(Radius.circular(3.0)),
+            ),
             child: SizedBox(
-              height: 120,
-              width: 100,
+              height: responsiveValue(100, md: 200),
+              width: responsiveValue(80, md: 140),
             ),
           ),
         ),
@@ -131,67 +220,30 @@ class _DisplayMessagesState extends State<DisplayMessages> {
           bottom: 0,
           right: 0,
           child: Container(
-            color: Colors.red[200],
+            decoration: BoxDecoration(
+              color: Colors.red[200],
+              borderRadius: BorderRadius.all(Radius.circular(3.0)),
+            ),
             child: SizedBox(
-              height: 120,
-              width: 100,
+              height: responsiveValue(100, md: 200),
+              width: responsiveValue(80, md: 140),
             ),
           ),
         ),
         SizedBox(
-          height: 250,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          height: responsiveValue(250, md: 350, lg: 550, xl: 650),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(3.0)),
+            ),
+            padding:
+                EdgeInsets.all(responsiveValue(20, md: 40, lg: 40, xl: 40)),
             child: Image(
-              image: AssetImage('images/dad.jpg'),
-              height: 160,
+              image: AssetImage('images/dad-2.jpg'),
             ),
           ),
         )
       ],
     );
   }
-
-  final messages = [
-    {
-      "name": 'Busola',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'Oba',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'pelumi',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'funmi',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'delay',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'Busola',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'Oba',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'pelumi',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'funmi',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-    {
-      "name": 'delay',
-      "message": "Lorem ipsum dolor acme, nert meki fkri vbs aj vfjf hs"
-    },
-  ];
 }
